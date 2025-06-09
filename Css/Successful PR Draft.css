@@ -1,0 +1,96 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: white;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navbar */
+.navbar {
+  height: 60px;
+  background: linear-gradient(to right, #ffffff, #999999, #676767);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+  box-sizing: border-box;
+}
+
+.nav-logo {
+  height: 60px;
+  width: auto;
+}
+
+.nav-links a {
+  width: 100px;
+  height: 30px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  color: black;
+  background-color: #e0e0e0;
+  font-size: 12px;
+  font-weight: 500;
+  border: none;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.nav-links a.active {
+  background-color: rgb(218, 255, 199);
+  font-weight: bold;
+}
+
+/* Confirmation Section */
+.confirmation-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.tick-icon {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 25px;
+}
+
+h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 30px;
+}
+
+.button-group {
+  display: flex;
+  gap: 12px;
+}
+
+.green-btn, .gray-btn {
+  padding: 10px 25px;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.green-btn {
+  background-color: #24cc61;
+  color: white;
+}
+
+.gray-btn {
+  background-color: #e0e0e0;
+  color: black;
+}

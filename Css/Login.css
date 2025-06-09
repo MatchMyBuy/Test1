@@ -1,0 +1,107 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to right, #eeeeee, #ffffff);
+}
+
+
+/* Logo wrapper for top-left alignment */
+.logo-wrapper {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+
+.logo-navbar {
+  max-width: 160px;
+  height: auto;
+  display: block;
+  margin: 20px;
+}
+
+
+/* Centered content */
+.container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+
+/* Title */
+h1 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #111;
+  margin-bottom: 30px;
+}
+
+
+/* Login box */
+.login-box {
+  background-color: #fff;
+  display: inline-block;
+  padding: 25px 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  width: 300px;
+}
+
+
+.login-box h3 {
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+
+.login-box p {
+  font-size: 14px;
+  margin: 8px 0 15px;
+  color: #444;
+}
+
+
+.login-box input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+
+.login-box button {
+  width: 100%;
+  padding: 10px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+
+.login-box button:hover {
+  background-color: #333;
+}
+
+
+.signup-text {
+  font-size: 13px;
+  margin-top: 12px;
+}
+
+
+.signup-text a {
+  color: #24cc61;
+  text-decoration: none;
+}
+
+
+.signup-text a:hover {
+  text-decoration: underline;
+}

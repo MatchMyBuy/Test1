@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "capstone-461808",
+  "private_key_id": "728093f90e0418d34de3c65f8063b6a1257eb0f2",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQC8BKgiW+ap+w8g\nLIzOLOaMwKTLQ1+abK25b9jPRhZqXbkERJsVj6hGS0nqiMcBS+SaYnuMBGSk40gt\nEdGxGHavGLS61N5Jjcifs2j+4rKOtrUakL8VLlkC3BRVcLothsQF86JTofik1/2G\nhCwShrv28YQ+tyBkzLXPD7efvaqpfFizCiLrCtOjAFfpJJRASNIqmDF95yXrSSWI\nytz98Q8eIPFghK6GmQhrIZmNVlASiiaRR/hNtW0Nk4wduPJ/R2HG4VJrdfVu1opd\nUiorwZq3ghpmoVfkCK9Hahr37TeTl9WY10s/iVJzCcAxzeFhqHuzrXsZsYVB/d5W\n2RUlI4ZNAgMBAAECggEACFedOC0OCSkPt5SSc3bFjKWNikvv0CkV9N40EfpLoKY4\n69S5cYBMGJZa7hI/NjJZBHVDLb1nfnNr2T1q/unAIQO+cnMNy9iud/uHY0EevWX4\n7M1S/8xsfEvUhnf3zXD8fevHSOECaG9W8I1+a8dY9rDU9ngR8rcB3XFBQKVd5E2B\nl6jb60M32MVNLw9wOQOhXqiAMbL4k+q65J0nolEMgCeC50a7iJPIc5vEx8IFc2X0\nST2zlrqxLdri2HMjWbfPCVzpcELO2RbJIUbGZo27Z+iOyR6ncREGPZqMyGIN4t+u\nV0jwVNjke74kslUQ9ShBB4UnZog/LJt7Lnr70MjeJwKBgQD+8u56mHX/BW2fRWHz\nQR2M/ZMt6EOb5nFDl8y/Tyf4sK+RZSJCgawfOM33iZ+5yNe4snRQ7YlLTfSy0qeR\nKtYulWkOtZhVqP+wsjqnXFLvi9u8OtyMEyHSSl25+W4DTQzlcq69gdawJPVq6XLE\nQepX7wQatuyuodLXgF9G8f1hNwKBgQC8yxZ00wROck3V4WfOsVO0XzKwfQSEnUxQ\nojWDmp+UPs+dVXb7HMzGRQtzknR/AkbypNrUR/sw1AZg6mdO6cjkj2VxG7B696Cw\nBVbWucNk511pRwlX0jXwOmomP9IghHE2Sf6fZZTRlY4f3EBaoNT4G0Zie3reRLoT\n6jJK4dCmmwKBgQD5MwWtqXa0xl6Hbu82MXCsDnQdTElBirctZaSJXtroN/P0f1FE\nhrFydzjD+663jzxk2XHeZMBtbg5/+G439BIUyJA/A3uaRy1eTmgMjK64XRF0ZGiN\nNmo5vdztWoSRD3BKmpV4wP/TftywGu3GLdPdDdEKN8ETVTPc1yrKEuEjcwKBgQCk\nornnkKkdu8IytMkwzyS+k5IBpFQPTZjibEIcjPeCcK/edUw3uaq9cDKHS3050QOL\nz8Vg/5CGyS7yzxbeEzN0VbRRyaLB6TYAqfdLc114neawyxjTs+YDov00c81LPBP6\nEtbvq8b2aeQx1oFsRvrRjf94HFROhkJ64W2QLZIl5wKBgQCq3WW3YWXXLRW+bM3R\nQAyDVIhy5W5rWnXCcgzVKHKM8sKceBvQSC/STGRqSMncRbnh4oKf4SFgsgPwMu/a\nc17ovBuZK/8ibA0Fx4u0IwwasKpbp17a6GI3cA13gVFjizuSaqQL0P9RyygZD3wM\nEtH/y1CDxIvoIxqHhLBnKh5pDQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "audio-upload@capstone-461808.iam.gserviceaccount.com",
+  "client_id": "106586450790781631691",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/audio-upload%40capstone-461808.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

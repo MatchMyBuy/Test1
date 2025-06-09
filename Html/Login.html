@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - MatchMyBuy</title>
+  <link rel="stylesheet" href="../Css/Login.css" />
+</head>
+<body>
+  <!-- Top-left Logo -->
+  <div class="logo-wrapper">
+<img src="../Image/logo.png" alt="MatchMyBuy Logo"
+     style="max-width: 160px; height: auto; display: block; margin: 20px;" />
+
+  </div>
+
+  <!-- Main Container -->
+  <div class="container">
+    <h1>Welcome to MatchMyBuy</h1>
+
+    <div class="login-box">
+      <h3>Login</h3>
+      <p>Enter your email to sign in</p>
+      <input type="email" id="email" placeholder="email@your-company.com" required />
+      <button onclick="signIn()">Sign in</button>
+      <p class="signup-text">New User? <a href="Signup.html">Sign Up</a> here</p>
+    </div>
+  </div>
+
+  <script>
+    function signIn() {
+      const email = document.getElementById('email').value;
+      if (email.trim() !== "") {
+        window.location.href = "Dashboard.html";
+      } else {
+        alert("Please enter your email.");
+      }
+    }
+  </script>
+</body>
+</html>
