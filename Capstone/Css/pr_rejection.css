@@ -1,0 +1,102 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: white;
+}
+
+/* Navbar */
+.navbar {
+  height: 60px;
+  background: linear-gradient(to right, #ffffff,#999999, #676767);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+  box-sizing: border-box;
+}
+
+.nav-logo {
+  height: 60px;
+  width: auto;
+}
+
+.nav-links a {
+  width: 100px;
+  height: 30px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  color: black;
+  background-color: #e0e0e0;
+  font-size: 12px;
+  font-weight: 500;
+  border: none;
+  margin-left: 10px;
+  border-radius: 4px;
+}
+
+.nav-links a.active {
+  background-color: white;
+  font-weight: bold;
+}
+
+/* PR Rejection Box */
+.pr-rejection-container {
+  width: 700px;
+  margin: 100px auto;
+  border: 2px solid #4CAF50;
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  background-color: white;
+  text-align: left;
+}
+
+.pr-rejection-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 22px;
+}
+
+.pr-rejection-container p {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.pr-rejection-container textarea {
+  width: 100%;
+  height: 180px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: #f0f0f0;
+  resize: none;
+}
+
+.note {
+  font-size: 12px;
+  margin-top: 10px;
+  color: #666;
+}
+
+.btn-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.reject-btn {
+  padding: 10px 25px;
+  background-color: #a33100;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.reject-btn:hover {
+  background-color: #8a2b00;
+}

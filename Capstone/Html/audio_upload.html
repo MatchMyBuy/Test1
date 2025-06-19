@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Audio for Classification</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Upload Audio</h1>
+
+        <div id="auth-ui" class="mb-6">
+            <h2 class="text-xl font-semibold text-gray-700 mb-4">Sign In</h2>
+            <input type="email" id="email" placeholder="Email" class="w-full p-3 mb-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <input type="password" id="password" placeholder="Password" class="w-full p-3 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button id="signInBtn" class="w-full bg-blue-600 text-white p-3 rounded-md hover:bg-blue-700 transition duration-300 ease-in-out font-semibold">Sign In</button>
+            <button id="signUpBtn" class="w-full bg-gray-200 text-gray-800 p-3 rounded-md hover:bg-gray-300 transition duration-300 ease-in-out font-semibold mt-2">Sign Up</button>
+        </div>
+
+        <div id="upload-ui" class="hidden">
+            <h2 class="text-xl font-semibold text-gray-700 mb-4">Upload Audio File</h2>
+            <input type="file" id="audioFile" accept="audio/*" class="w-full p-3 mb-4 border border-gray-300 rounded-md">
+            <button id="uploadBtn" class="w-full bg-green-600 text-white p-3 rounded-md hover:bg-green-700 transition duration-300 ease-in-out font-semibold">Upload & Process</button>
+            <p id="uploadStatus" class="text-center mt-4 text-sm text-gray-600"></p>
+            <button id="signOutBtn" class="w-full bg-red-500 text-white p-3 rounded-md hover:bg-red-600 transition duration-300 ease-in-out font-semibold mt-4">Sign Out</button>
+
+            </div>
+    </div>
+
+    <script>
+        const SUPABASE_URL = 'YOUR_SUPABASE_URL'; // Replace with your Supabase URL
+        const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY'; // Replace with your Supabase Anon Key
+        const GCS_BUCKET_NAME = 'YOUR_GCS_BUCKET_NAME'; // e.g., 'my-audio-uploads-bucket'
+        const SUPABASE_EDGE_FUNCTION_URL = 'YOUR_SUPABASE_EDGE_FUNCTION_PUBLIC_URL'; // From Render function deployment (e.g. https://<project-ref>.supabase.co/functions/v1/process-audio-upload)
+
+        const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        const authUi = document.getElementById('auth-ui');
+        const uploadUi = document.getElementById('upload-ui');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const signInBtn = document.getElementById('signInBtn');
+        const signUpBtn = document.getElementById('signUpBtn');
+        const audioFile = document.getElementById('audioFile');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const uploadStatus = document.getElementById('uploadStatus');
+        const signOutBtn = document.getElementById('signOutBtn');
+        // The 'classificationResults' variable has been removed
+
+        let currentUser = null;
+
+        // --- Auth Functions ---
+        async function signUp() {
+            const { data, error } = await supabase.auth.signUp({
+                email: emailInput.value,
+                password: passwordInput.value,
+            });
+            if (error) {
+                uploadStatus.textContent = `Sign Up Error: ${error.message}`;
+            } else {
+                uploadStatus.textContent = 'Sign up successful! Check your email for confirmation.';
+                // Automatically try to sign in after successful sign-up
+                signIn();
+            }
+        }
+
+        async function signIn() {
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: emailInput.value,
+                password: passwordInput.value,
+            });
+            if (error) {
+                uploadStatus.textContent = `Sign In Error: ${error.message}`;
+            } else {
+                uploadStatus.textContent = 'Signed in successfully!';
+                updateUI(data.user);
+            }
+        }
+
+        async function signOut() {
+            const { error } = await supabase.auth.signOut();
+            if (error) {
+                uploadStatus.textContent = `Sign Out Error: ${error.message}`;
+            } else {
+                uploadStatus.textContent = 'Signed out.';
+                updateUI(null);
+            }
+        }
+
+        function updateUI(user) {
+            currentUser = user;
+            if (user) {
+                authUi.classList.add('hidden');
+                uploadUi.classList.remove('hidden');
+                uploadStatus.textContent = `Welcome, ${user.email}!`;
+                // No longer fetching or displaying classifications
+            } else {
+                authUi.classList.remove('hidden');
+                uploadUi.classList.add('hidden');
+                uploadStatus.textContent = '';
+                // No longer setting classification results HTML
+            }
+        }
+
+        // --- GCS Upload and Supabase Edge Function Trigger ---
+        async function uploadAudioToGCSAndTriggerEdgeFunction() {
+            if (!currentUser) {
+                uploadStatus.textContent = 'Please sign in to upload audio.';
+                return;
+            }
+
+            const file = audioFile.files[0];
+            if (!file) {
+                uploadStatus.textContent = 'Please select an audio file.';
+                return;
+            }
+
+            uploadStatus.textContent = 'Uploading audio to Google Cloud Storage...';
+            const fileNameInGCS = `${currentUser.id}/${Date.now()}_${file.name}`; // Path inside GCS bucket
+
+            try {
+                // Step 1: Upload directly to GCS using Fetch API for simplicity
+                // This requires your GCS bucket to be configured for CORS and have appropriate permissions.
+                const gcsUploadUrl = `https://storage.googleapis.com/${GCS_BUCKET_NAME}/${fileNameInGCS}`;
+
+                const uploadResponse = await fetch(gcsUploadUrl, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': file.type,
+                    },
+                    body: file,
+                });
+
+                if (!uploadResponse.ok) {
+                    const errorText = await uploadResponse.text();
+                    throw new Error(`GCS Upload Failed: ${uploadResponse.status} - ${errorText}`);
+                }
+
+                const publicGcsUrl = `https://storage.googleapis.com/${GCS_BUCKET_NAME}/${fileNameInGCS}`;
+                console.log('Audio uploaded to GCS:', publicGcsUrl);
+                uploadStatus.textContent = 'Audio uploaded to GCS. Initiating processing...';
+
+                // Step 2: Trigger Supabase Edge Function with GCS URL
+                const triggerResponse = await fetch(SUPABASE_EDGE_FUNCTION_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        audio_url: publicGcsUrl,
+                        user_id: currentUser.id,
+                    }),
+                });
+
+                if (!triggerResponse.ok) {
+                    const errorText = await triggerResponse.text();
+                    throw new Error(`Edge Function Trigger Failed: ${triggerResponse.status} - ${errorText}`);
+                }
+
+                const triggerResult = await triggerResponse.json();
+                console.log('Edge Function triggered:', triggerResult);
+                uploadStatus.textContent = 'Processing initiated! Results will appear shortly.';
+                audioFile.value = ''; // Clear file input
+
+            } catch (error) {
+                uploadStatus.textContent = `Processing Error: ${error.message}`;
+                console.error('Full Processing Error:', error);
+            }
+        }
+
+        // --- Event Listeners ---
+        signInBtn.addEventListener('click', signIn);
+        signUpBtn.addEventListener('click', signUp);
+        signOutBtn.addEventListener('click', signOut);
+        uploadBtn.addEventListener('click', uploadAudioToGCSAndTriggerEdgeFunction);
+
+        // --- Initial Auth Check ---
+        // Sets up a listener for changes in Supabase authentication state
+        supabase.auth.onAuthStateChange((event, session) => {
+            updateUI(session?.user || null);
+        });
+        // Gets the current session on page load to initialize the UI
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            updateUI(session?.user || null);
+        });
+
+        // The Realtime listener for classification results has been removed
+    </script>
+</body>
+</html

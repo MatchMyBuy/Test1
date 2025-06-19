@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MatchMyBuy - History</title>
+  <link rel="stylesheet" href="../Css/search.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">
+        <img src="Images/logo.png" alt="MatchMyBuy Logo" />
+    </div>
+    <nav>
+      <button>New PR Creation</button>
+      <button class="active">History</button>
+      <button>Dashboard</button>
+      <button class="logout">Logout</button>
+    </nav>
+  </header>
+
+  <main>
+    <h1>History</h1>
+    <section class="search-section">
+      <div class="search-fields">
+        <input type="text" placeholder="PR No." />
+        <input type="text" placeholder="Owner" />
+        <input type="text" placeholder="Date Created" />
+        <input type="text" placeholder="Status" />
+        <input type="text" placeholder="Amount" />
+      </div>
+      <div class="search-actions">
+        <button>Search</button>
+        <select>
+          <option selected>Sort by : Newest</option>
+          <option>Oldest</option>
+        </select>
+      </div>
+    </section>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Date Created</th>
+          <th>PR No.</th>
+          <th>Amount</th>
+          <th>Owner</th>
+          <th>Status</th>
+          <th>Actions</th>
+          <th>Download</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>15/5/2025</td>
+          <td>JG1450</td>
+          <td>4500.00</td>
+          <td>chong.yx@lotus.com</td>
+          <td><span class="status pending">Pending Approval</span></td>
+          <td><a href="#">View</a></td>
+          <td><img src="pdf-icon.png" alt="Download PDF" class="pdf-icon" /></td>
+        </tr>
+        <tr>
+          <td>13/5/2025</td>
+          <td>JG1449</td>
+          <td>3005.20</td>
+          <td>chong.yx@lotus.com</td>
+          <td><span class="status rejected">Rejected</span></td>
+          <td><a href="#">View</a></td>
+          <td><img src="pdf-icon.png" alt="Download PDF" class="pdf-icon" /></td>
+        </tr>
+        <tr>
+          <td>13/5/2025</td>
+          <td>JG1445</td>
+          <td>689.00</td>
+          <td>pohsan.per@lotus.com</td>
+          <td><span class="status rejected">Rejected</span></td>
+          <td><a href="#">View</a></td>
+          <td><img src="pdf-icon.png" alt="Download PDF" class="pdf-icon" /></td>
+        </tr>
+        <tr>
+          <td>13/5/2025</td>
+          <td>JG1444</td>
+          <td>7505.20</td>
+          <td>jiekeesng@lotus.com</td>
+          <td><span class="status approved">Approved</span></td>
+          <td><a href="#">View</a></td>
+          <td><img src="pdf-icon.png" alt="Download PDF" class="pdf-icon" /></td>
+        </tr>
+        <tr>
+          <td>12/5/2025</td>
+          <td>JG1443</td>
+          <td>12,000.00</td>
+          <td>syamimimhmhd@lotus.com</td>
+          <td><span class="status approved">Approved</span></td>
+          <td><a href="#">View</a></td>
+          <td><img src="pdf-icon.png" alt="Download PDF" class="pdf-icon" /></td>
+        </tr>
+        <tr>
+          <td>8/5/2025</td>
+          <td>JG1441</td>
+          <td>389.00</td>
+          <td>chloelee@lotus.com</td>
+          <td><span class="status approved">Approved</span></td>
+          <td><a href="#">View</a></td>
+          <td><img src="pdf-icon.png" alt="Download PDF" class="pdf-icon" /></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="pagination">
+      <button>&lt;</button>
+      <button class="active">1</button>
+      <button>2</button>
+      <button>3</button>
+      <button>4</button>
+      <span>…</span>
+      <button>40</button>
+      <button>&gt;</button>
+    </div>
+    <p class="footer-note">Showing data 1 to 8 of 582 entries</p>
+  </main>
+</body>
+</html>
+
+<!--ADD THIS in replace of the static table content -> supabase output data
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+  const supabaseUrl = 'https://YOUR_PROJECT.supabase.co';
+  const supabaseKey = 'YOUR_ANON_KEY';
+  const supabase = createClient(supabaseUrl, supabaseKey);
+
+  async function loadData() {
+    const { data, error } = await supabase
+      .from('purchase_requests') // replace with your table name
+      .select('*')
+      .order('date_created', { ascending: false });
+
+    if (error) {
+      console.error('Error loading data:', error);
+      return;
+    }
+
+    const tableBody = document.querySelector("table tbody");
+    tableBody.innerHTML = "";
+
+    data.forEach(row => {
+      tableBody.innerHTML += `
+        <tr>
+          <td>${row.date_created}</td>
+          <td>${row.pr_no}</td>
+          <td>${row.amount.toFixed(2)}</td>
+          <td>${row.owner}</td>
+          <td><span class="status ${row.status.toLowerCase().replace(" ", "")}">${row.status}</span></td>
+          <td><a href="#">View</a></td>
+          <td><img src="pdf-icon.png" alt="Download PDF" class="pdf-icon" /></td>
+        </tr>`;
+    });
+  }
+
+  loadData();
+</script>
+-->

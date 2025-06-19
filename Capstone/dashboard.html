@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard - MatchMyBuy</title>
+  <link rel="stylesheet" href="dashboard.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">
+        <img src="Images/logo.png" alt="MatchMyBuy Logo" />
+    </div>
+    <nav>
+      <button>New PR Creation</button>
+      <button class="active">History</button>
+      <button>Dashboard</button>
+      <button class="logout">Logout</button>
+    </nav>
+  </header>
+
+
+  <h1 class="title">Dashboard</h1>
+
+  <div class="status-cards">
+    <div class="card" onclick="location.href='pending.html';">
+      <span class="value green">12</span>
+      <p>Pending Approval</p>
+    </div>
+    <div class="card" onclick="location.href='approved.html';">
+      <span class="value blue">8</span>
+      <p>Approved</p>
+    </div>
+    <div class="card" onclick="location.href='closed.html';">
+      <span class="value magenta">72</span>
+      <p>Closed</p>
+    </div>
+    <div class="card" onclick="location.href='rejected.html';">
+      <span class="value red">23</span>
+      <p>Rejected</p>
+    </div>
+  </div>
+
+  <div class="main-graph-container">
+    <iframe 
+      src="https://app.powerbi.com/view?r=eyJrIjoiZDhmMTQzNDYtZGM0Yy00ODgwLTliNDYtNzc5MmZmMjNjZjMyIiwidCI6IjUzN2MyYmUxLWZjZDQtNDVhOS04M2IzLTY2NTNlYWNjNTA3MCIsImMiOjEwfQ%3D%3D" 
+      allowfullscreen="true" 
+      frameborder="0"
+      loading="lazy"
+    ></iframe>
+  </div>
+</body>
+</html>
+
+

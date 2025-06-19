@@ -1,0 +1,117 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: white;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navbar */
+.navbar {
+  height: 60px;
+  background: linear-gradient(to right, #ffffff, #999999, #676767);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+  box-sizing: border-box;
+}
+
+.nav-logo {
+  height: 60px;
+  width: auto;
+}
+
+.nav-links a {
+  width: 100px;
+  height: 30px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  color: black;
+  background-color: #e0e0e0;
+  font-size: 12px;
+  font-weight: 500;
+  border: none;
+  border-radius: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.nav-links a.active {
+  background-color: rgb(218, 255, 199);
+  font-weight: bold;
+}
+
+/* Content */
+.container {
+  flex: 1;
+  padding: 40px 60px;
+  text-align: center;
+}
+
+h2 {
+  margin-bottom: 30px;
+}
+
+.pr-box {
+  border: 2px solid #24cc61;
+  border-radius: 15px;
+  padding: 20px;
+  overflow-x: auto;
+  margin-bottom: 30px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+th, td {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+select, input[type="number"] {
+  padding: 6px;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+  font-size: 14px;
+}
+
+.button-row {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.edit-btn,
+.confirm-btn {
+  padding: 10px 30px;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.edit-btn {
+  background-color: #e0e0e0;
+  color: black;
+}
+
+.confirm-btn {
+  background-color: #24cc61;
+  color: white;
+}

@@ -1,0 +1,116 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: white;
+}
+
+/* Navbar */
+.navbar {
+  height: 60px;
+  background: linear-gradient(to right, #ffffff,#999999, #676767);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+  box-sizing: border-box;
+}
+
+.nav-logo {
+  height: 60px;
+  width: auto;
+}
+
+.nav-links a {
+  width: 100px;
+  height: 30px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  color: black;
+  background-color: #e0e0e0;
+  font-size: 12px;
+  font-weight: 500;
+  border: none;
+  margin-left: 10px;
+  border-radius: 4px;
+}
+
+.nav-links a:hover {
+  background-color: #cccccc;
+}
+
+/* Rejected Message */
+.rejected-container {
+  text-align: center;
+  margin-top: 150px;
+}
+
+.rejected-container h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.rejected-container p {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 30px;
+}
+
+/* Buttons */
+.btn-group {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.gray-btn,
+.green-btn {
+  padding: 10px 25px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+.gray-btn {
+  background-color: #eee;
+  color: #333;
+}
+
+.gray-btn:hover {
+  background-color: #ddd;
+}
+
+.green-btn {
+  background-color: #00a676;
+  color: white;
+}
+
+.green-btn:hover {
+  background-color: #009168;
+}
+
+.btn-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 20px;
+}
+
+/* Reject Button Style */
+.reject-btn {
+  padding: 10px 25px;
+  background-color: #a33100;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.reject-btn:hover {
+  background-color: #8a2b00;
+}

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Purchase Request - MatchMyBuy</title>
+  <link rel="stylesheet" href="../Css/Edit or Confirmation Page.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <img src="../Image/logo.png" alt="MatchMyBuy Logo" class="nav-logo">
+    <div class="nav-links">
+      <a href="New PR Creation.html">New PR Creation</a>
+      <a href="History.html">History</a>
+      <a href="Dashboard.html">Dashboard</a>
+      <a href="Login.html">Logout</a>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="container">
+    <h2>Purchase Request Details</h2>
+
+    <div class="pr-box">
+      <table>
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Product Code</th>
+            <th>Quantity</th>
+            <th>Net Price</th>
+            <th>Total Price</th>
+            <th>Supplier</th>
+            <th>Supplier Code</th>
+          </tr>
+        </thead>
+        <tbody id="pr-table-body">
+          <!-- Rows will be injected here -->
+        </tbody>
+      </table>
+    </div>
+
+    <div class="footer">
+      <div class="left">
+        <span><strong>Date:</strong> -</span>
+      </div>
+      <div class="right">
+        <span><strong>Total Amount Requested:</strong> -</span>
+      </div>
+    </div>
+
+    <div class="button-row">
+      <button class="confirm-btn">Confirm</button>
+    </div>
+  </div>
+
+  <!-- Supabase + Choices Script -->
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const client = window.supabase.createClient(
+        'https://rimbcbdibhqapappxmag.supabase.co',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJpbWJjYmRpYmhxYXBhcHB4bWFnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkwODUyMzEsImV4cCI6MjA2NDY2MTIzMX0.MiYtm2iUp1R5rgm2wrw8EW2HINr-jAoTSKtKhHFUjt0'
+      );
+
+      const { data, error } = await client
+        .from('mloutput_pr2')
+        .select('*')
+        .order('created_at', { ascending: true });
+
+      if (error || !data || data.length === 0) {
+        alert("Failed to load PR data.");
+        return;
+      }
+
+      const allOptions = [];
+      data.forEach(row => {
+        ['best', 'second', 'third'].forEach(type => {
+          const name = row[`${type}_match_product_name`];
+          const code = row[`${type}_match_product_code`];
+          const price = row[`net_price_${type}`];
+          const supplier = row[`${type}_match_supplier`];
+          const suppcode = row[`${type}_match_supplier_code`];
+
+          if (!allOptions.some(o => o.name === name)) {
+            allOptions.push({ name, code, price, supplier, suppcode });
+          }
+        });
+      });
+
+      const firstPR = data[0];
+      const tbody = document.getElementById("pr-table-body");
+
+      const rows = [
+        {
+          name: firstPR.best_match_product_name,
+          code: firstPR.best_match_product_code,
+          price: firstPR.net_price_best,
+          qty: firstPR.quantity_best,
+          supplier: firstPR.best_match_supplier,
+          suppcode: firstPR.best_match_supplier_code
+        },
+        {
+          name: firstPR.second_match_product_name,
+          code: firstPR.second_match_product_code,
+          price: firstPR.net_price_second,
+          qty: firstPR.quantity_second,
+          supplier: firstPR.second_match_supplier,
+          suppcode: firstPR.second_match_supplier_code
+        },
+        {
+          name: firstPR.third_match_product_name,
+          code: firstPR.third_match_product_code,
+          price: firstPR.net_price_third,
+          qty: firstPR.quantity_third,
+          supplier: firstPR.third_match_supplier,
+          suppcode: firstPR.third_match_supplier_code
+        }
+      ];
+
+      tbody.innerHTML = rows.map((row, i) => {
+        const options = [
+          `<option value="">--</option>`,
+          ...allOptions.map(opt =>
+            `<option value="${opt.name}" ${opt.name === row.name ? 'selected' : ''}>${opt.name}</option>`
+          )
+        ].join('');
+
+        return `
+          <tr data-row="${i}">
+            <td><select class="product-select">${options}</select></td>
+            <td class="code">${row.code}</td>
+            <td><input type="number" class="qty" value="${row.qty}" min="0" /></td>
+            <td class="price">${parseFloat(row.price).toFixed(2)}</td>
+            <td class="total">${(row.qty * row.price).toFixed(2)}</td>
+            <td class="supplier">${row.supplier}</td>
+            <td class="suppcode">${row.suppcode}</td>
+          </tr>
+        `;
+      }).join('');
+
+      // Apply Choices.js to dropdowns
+      document.querySelectorAll('.product-select').forEach(select => {
+        new Choices(select, {
+          searchEnabled: true,
+          itemSelectText: '',
+          shouldSort: false
+        });
+      });
+
+      document.querySelector(".footer .left span").innerHTML = `<strong>Date:</strong> ${new Date(firstPR.created_at).toLocaleDateString()}`;
+      updateGrandTotal();
+
+      // Dropdown change logic
+      tbody.querySelectorAll('select.product-select').forEach((select, index) => {
+        select.addEventListener('change', (e) => {
+          const selectedName = e.target.value;
+          const row = tbody.querySelector(`tr[data-row="${index}"]`);
+          const qtyInput = row.querySelector('.qty');
+
+          if (selectedName === "") {
+            row.querySelector('.code').innerText = "-";
+            row.querySelector('.price').innerText = "-";
+            row.querySelector('.total').innerText = "-";
+            row.querySelector('.supplier').innerText = "-";
+            row.querySelector('.suppcode').innerText = "-";
+            qtyInput.value = 0;
+            qtyInput.disabled = true;
+          } else {
+            const selected = allOptions.find(opt => opt.name === selectedName);
+            row.querySelector('.code').innerText = selected.code;
+            row.querySelector('.price').innerText = parseFloat(selected.price).toFixed(2);
+            row.querySelector('.supplier').innerText = selected.supplier;
+            row.querySelector('.suppcode').innerText = selected.suppcode;
+            qtyInput.disabled = false;
+
+            const qty = parseFloat(qtyInput.value || 0);
+            row.querySelector('.total').innerText = (qty * selected.price).toFixed(2);
+          }
+
+          updateGrandTotal();
+        });
+      });
+
+      // Quantity change logic
+      tbody.querySelectorAll('input.qty').forEach((input, index) => {
+        input.addEventListener('input', () => {
+          const row = tbody.querySelector(`tr[data-row="${index}"]`);
+          const qty = parseFloat(input.value || 0);
+          const price = parseFloat(row.querySelector('.price').innerText);
+          row.querySelector('.total').innerText = (!isNaN(price) && qty > 0) ? (qty * price).toFixed(2) : "-";
+          updateGrandTotal();
+        });
+      });
+
+      function updateGrandTotal() {
+        let sum = 0;
+        document.querySelectorAll('.total').forEach(td => {
+          const val = parseFloat(td.innerText);
+          if (!isNaN(val)) sum += val;
+        });
+        document.querySelector(".footer .right span").innerHTML =
+          `<strong>Total Amount Requested:</strong> ${sum.toFixed(2)}`;
+      }
+
+      document.querySelector('.confirm-btn').addEventListener('click', () => {
+        window.location.href = 'Successful PR Draft.html';
+      });
+    });
+  </script>
+
+</body>
+</html>

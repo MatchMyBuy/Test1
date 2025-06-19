@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Up - MatchMyBuy</title>
+  <link rel="stylesheet" href="../Css/Login.css" />
+</head>
+<body>
+  <div class="logo-wrapper">
+    <img src="../Image/logo.png" alt="MatchMyBuy Logo" class="nav-logo" />
+  </div>
+
+  <div class="container">
+    <h1>Welcome to MatchMyBuy</h1>
+
+    <div class="login-box">
+      <h3>Sign Up</h3>
+      <form id="signup-form">
+        <input type="text" id="name" placeholder="Full Name" required />
+        <input type="email" id="email" placeholder="email@your-company.com" required />
+        <input type="password" id="password" placeholder="Password" required />
+        <input type="password" id="confirm-password" placeholder="Confirm Password" required />
+        <select id="user_type" required>
+          <option value="" disabled selected>Select Type</option>
+          <option value="manager">Manager</option>
+          <option value="user">User</option>
+        </select>
+        <input type="submit" value="Sign Up" />
+      </form>
+      <p class="signup-text">Already have an account? <a href="login.html">Sign In</a> here</p>
+    </div>
+  </div>
+
+  <!-- Include Supabase JavaScript SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/dist/umd/supabase.js"></script>
+
+  <script>
+    // Wait for the page to load fully before executing the script
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize Supabase with your Supabase URL and anon key
+      const supabaseUrl = 'https://rimbcbdibhqapappxmag.supabase.co'; // Replace with your Supabase URL
+      const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJpbWJjYmRpYmhxYXBhcHB4bWFnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkwODUyMzEsImV4cCI6MjA2NDY2MTIzMX0.MiYtm2iUp1R5rgm2wrw8EW2HINr-jAoTSKtKhHFUjt0';  // Replace with your Supabase anon key
+      const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+      // Handle form submission for sign up
+      document.getElementById('signup-form').addEventListener('submit', async function(event) {
+        event.preventDefault();  // Prevent form from submitting normally
+
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("confirm-password").value;
+        const userType = document.getElementById("user_type").value;
+
+        // Check if passwords match
+        if (password !== confirmPassword) {
+          alert("Passwords do not match!");
+          return;
+        }
+
+        // Sign up with Supabase
+        const { user, error } = await supabase.auth.signUp({
+          email: email,
+          password: password,
+        });
+
+        if (error) {
+          alert('Error: ' + error.message);
+        } else {
+          // Insert additional user data (name, userType, etc.) into the 'users' table
+          const { data, error: insertError } = await supabase
+            .from('users')
+            .insert([{ name: name, email: email, type: userType }]);
+
+          if (insertError) {
+            alert('Error inserting data: ' + insertError.message);
+          } else {
+            alert('Sign up successful!');
+            window.location.href = 'login.html'; // Redirect to login page after successful sign-up
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
